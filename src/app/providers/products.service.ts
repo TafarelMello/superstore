@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 
+const products = require('./products.json');
 const BASEURL = window.location.href;
 
 import * as _ from 'lodash';
@@ -7,23 +8,21 @@ import * as $ from 'jquery';
 
 @Injectable()
 export class ProductsService {
-  private products = JSON.parse('./products.json');
-
   constructor() {}
 
   // retorna a lista de produtos
   list() {
     return new Promise((resolve, reject) => {
-      this.products.map((product, i) => {
+      products.map((product, i) => {
         // título no-formato-de-slug
-        this.products[i].titleSlug = _.kebabCase(product.name);
+        products[i].titleSlug = _.kebabCase(product.name);
         // a rota deste post
-        this.products[i].router =
-          '/products/' + this.products[i].titleSlug + '/' + this.products[i].id;
+        products[i].router =
+          '/products/' + products[i].titleSlug + '/' + products[i].id;
         // a url deste post
-        this.products[i].url = BASEURL + this.products[i].router;
+        products[i].url = BASEURL + products[i].router;
       });
-      resolve(this.products); // resolve a lista de posts
+      resolve(products); // resolve a lista de posts
     });
   }
 
